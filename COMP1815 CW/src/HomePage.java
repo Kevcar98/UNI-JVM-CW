@@ -15,6 +15,7 @@ public class HomePage {
     private JButton updateTaskProgressButton;
     private JButton updateTaskDurationButton;
     private JButton ScalaCriticalPath;
+    private JButton kotlinCriticalPathButton;
 
     public static void main(String[] args) {
         JFrame HomePF = new JFrame("Home Page");
@@ -155,6 +156,21 @@ public class HomePage {
                 SCPath.pack();
                 SCPath.setVisible(true);
                 SCPath.setLocationRelativeTo(null);
+                // Closes current window
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
+            }
+        });
+        kotlinCriticalPathButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame KCPath = new JFrame("Kotlin Critical Path");
+                KCPath.setContentPane(new KotlinCriticalPath().KotlinCPPanel);
+                KCPath.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                KCPath.pack();
+                KCPath.setVisible(true);
+                KCPath.setLocationRelativeTo(null);
                 // Closes current window
                 JComponent comp = (JComponent) e.getSource();
                 Window win = SwingUtilities.getWindowAncestor(comp);
