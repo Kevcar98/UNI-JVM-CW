@@ -1,17 +1,42 @@
 package CriticalPath
+import TaskHandler
 
 class KotlinCP {
-    fun main() {
+
+
+
+    fun main(Preq: Array<String>, NPreq: Array<String>) {
         // The example dependency graph
+        //
+        /*
         val end = Task("End", 0)
         val F = Task("F", 2, end)
         val A = Task("A", 3, end)
         val X = Task("X", 4, F, A)
         val Q = Task("Q", 2, A, X)
         val start = Task("Start", 0, Q)
-        val allTasks = hashSetOf(end, F, A, X, Q, start)
+        val allTasks = hashSetOf(end, F, A, X, Q, start)*/
+/*
+        val start = Task("0 - Start", 0)
+        val first = Task("1", 1,start)
+        val second = Task("2", 1,first)
+        val third = Task("3", 1,start)
+        val forth= Task("4", 1,start,second,third)
+        val fifth= Task("5", 1,forth)
+        val allTasks = hashSetOf(fifth, forth, third, second, first, start)*/
+
+        val tasks = ArrayList<KotlinCP.Task>()
+        val start = Task("0 - Start", 0)
+
+        for(i in NPreq){
+            println("i is "+i)
+            tasks.add(Task(i, TaskHandler().TasksDurationForID(i).toInt(),start))
+        }
+task(0)
+task(1)
 
 
+        val allTasks = hashSetOf(tasks, start)
 
 
 
