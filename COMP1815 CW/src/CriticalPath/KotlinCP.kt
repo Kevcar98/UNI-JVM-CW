@@ -32,13 +32,10 @@ class KotlinCP {
             println("i is "+i)
             tasks.add(Task(i, TaskHandler().TasksDurationForID(i).toInt(),start))
         }
-task(0)
-task(1)
 
 
-        val allTasks = hashSetOf(tasks, start)
 
-
+        //val allTasks = hashSetOf(tasks, start)
 
 
 
@@ -50,8 +47,10 @@ task(1)
 
 
 
-        calculateCriticalPath(allTasks)
-        prettyPrintResult(allTasks)
+
+
+        //calculateCriticalPath(allTasks)
+        //prettyPrintResult(allTasks)
     }
 
     fun calculateCriticalPath(tasks: Collection<Task>) {
@@ -113,17 +112,17 @@ task(1)
         System.out.format(format, "Task", "ES", "EF", "LS", "LF", "Slack", "Critical?")
         tasks.sortedWith { o1, o2 -> o1.name.compareTo(o2.name) }.forEach {
             System.out.format(
-                format, it.name, it.earlyStart, it.earlyFinish, it.latestStart, it.latestFinish,
-                it.latestStart - it.earlyStart, if (it.isCritical()) "Yes" else "No"
+                    format, it.name, it.earlyStart, it.earlyFinish, it.latestStart, it.latestFinish,
+                    it.latestStart - it.earlyStart, if (it.isCritical()) "Yes" else "No"
             )
         }
     }
 
     // A wrapper class to hold the tasks during the calculation
     class Task(
-        var name: String, // a name for the task for printing
-        var duration: Int, // the actual cost of the task
-        vararg dependencies: Task
+            var name: String, // a name for the task for printing
+            var duration: Int, // the actual cost of the task
+            vararg dependencies: Task
     ) {
         // the cost of the task along the critical path
         var criticalCost = 0

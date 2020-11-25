@@ -62,7 +62,6 @@ class ScalaCP {
 
     // Takes two input parameters: tasks with prerequisites and tasks without prerequisites - which are managed accordingly
     val Project = DAG[Int](0)
-    println("Start of tree")
 
     for (i <- 0 until NPreq.length) {
       var nprq = NPreq(i).toInt

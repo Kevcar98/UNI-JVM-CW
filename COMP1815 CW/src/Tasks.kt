@@ -433,7 +433,6 @@ class TaskHandler() {
     }
 
     fun TasksDurationForID(ID: String): Int {
-        var Duration = 0
         try {
             val fr = FileReader("Tasks.txt")
             val br = BufferedReader(fr)
@@ -451,43 +450,25 @@ class TaskHandler() {
                 fileLines = fileLines.replace(")", "")
                 val parts: Array<String> = fileLines.substring(1, fileLines.length - 1).split("\\]\\[".toRegex()).toTypedArray() // Creates Array of Tasks via split()
                 val allParts = Array<Array<String>>(parts.size) { Array<String>(7) { "" } } // Make 3D Array with dimensions: Tasks vs. Tasks Parameters (ID, etc)
-
                 for (i in parts.indices) {
                     allParts[i] = parts[i].split(",".toRegex()).toTypedArray() // For each Task, input their respective Task Parameters into Array via split()
                 }
 
-                // Loads Tasks from File, then this block returns an array of Task IDs according to the matching Project ID
-
-
-                for(k in ID.indices){
-                    println("ID["+k+"]= "+ID[k])
+                // Loads Tasks from File, then this block returns the duration of the matching Task ID
+                var duration = 0
+                for (i in parts.indices) {
+                    if (allParts[i][0] == ID) {
+                        duration = allParts[i][4].toInt()
+                    }
                 }
-
-
-                for(j in ID.indices) {
-                    for (i in parts.indices) {
-                        //println("i= " + i)
-
-                        if (allParts[i][0] == ID) {
-                            println("Duration of "+j+" task " + allParts[j][4])
-                            Duration = allParts[i][4].toInt()
-                        }
-                    } // Loops through all created tasks, if a match is found, add it to a string (to be returned as an array later)
-                    // Checks if no matching Task ID was found from the given Project ID, so that split() is not used on empty string
-
-                }
-
-
-
-
+                br.close()
+                return duration
             }
         } catch (e: FileNotFoundException) {
             println("Error: File Not Found")
         } catch (e: IOException) {
             println("Error: IO Exception")
         }
-        return Duration
+        return 0
     }
 }
-
-

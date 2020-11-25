@@ -1,14 +1,10 @@
 import CriticalPath.ScalaCP;
-import scala.Int;
 import scala.Tuple3;
 import scala.collection.immutable.List;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 public class ScalaCriticalPath {
     public JPanel ScalaCPPanel;
@@ -77,7 +73,6 @@ public class ScalaCriticalPath {
                             Tuple3<String, Object, List<Object>> TreeInfo = cphandler.main(AssignedPTasks, AssignedNPTasks);
 
                             String tree = TreeInfo._1(); // Tree
-                            System.out.println(TreeInfo._1());
                             treeJList.setListData(tree.split(",")); // Converts string to new array for JList
 
                             int OCPSize = Integer.parseInt(TreeInfo._2().toString()); // Size of critical path with the beginning node (parse object to int)
@@ -97,14 +92,14 @@ public class ScalaCriticalPath {
                             int finalDur = 0;
 
                             for (int i = 0; i < NodesOfPathL.length; i++) {
-                                System.out.println("in loop" + DurationOfCP);
+                                // System.out.println("In loop: " + DurationOfCP);
                                 DurationOfCP = taskHandler.TasksDurationForID(NodesOfPathL[i]);
                                 finalDur = finalDur + DurationOfCP;
-                                System.out.println("Value that was passed " + NodesOfPathL[i]);
-                                System.out.println("Value that was recieved " + DurationOfCP);
+                                // System.out.println("Value that was passed: " + NodesOfPathL[i]);
+                                // System.out.println("Value that was received: " + DurationOfCP);
                             } // Array to then get duration of critical tasks
 
-                            System.out.println("Out of loop" + finalDur);
+                            // System.out.println("Out of loop: " + finalDur);
                             DurationL.setText("Duration of Critical path of project: " + finalDur);
 
                             // Resizes and centers current window by re-packing it

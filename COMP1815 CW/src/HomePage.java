@@ -132,7 +132,7 @@ public class HomePage {
                 win.dispose();
             }
         });
-		updateTaskDurationButton.addActionListener(new ActionListener() {
+        updateTaskDurationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame TaskUpD = new JFrame("Update Task Duration");
@@ -142,7 +142,7 @@ public class HomePage {
                 TaskUpD.setVisible(true);
                 TaskUpD.setLocationRelativeTo(null);
                 // Closes current window
-				JComponent comp = (JComponent) e.getSource();
+                JComponent comp = (JComponent) e.getSource();
                 Window win = SwingUtilities.getWindowAncestor(comp);
                 win.dispose();
             }
