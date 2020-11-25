@@ -7,9 +7,10 @@ import scala.collection.mutable.{HashMap, HashSet, Set}
 import scala.io.Source
 
 class ScalaCP {
-  def main(Preq: Array[String], NPreq: Array[String]): (Unit, (Int, List[Int])) = {
+  def main(Preq: Array[String], NPreq: Array[String]): (String, Int, List[Int]) = {
     // Case class means there is no need to put new to instantiate the class (new DAG -> DAG)
     case class DAG[T](root: T) extends HashMap[T, Set[T]] {
+      var treeString = "" // For PrintTree() function
 
       def extend(Parent: Set[T], Child: T) = {
         // Preserve model consistency by setting method requirements for extend function
@@ -43,13 +44,14 @@ class ScalaCP {
       }
 
       // Prints a visual representation of the largest branch of the DAG
-      def PrintTree(origin: T, Next: Int = 0): Unit = {
+      def PrintTree(origin: T, Next: Int = 0): String = {
         if (contains(origin)) {
-          for (i <- 0 until Next - 1) print("   ")
-          if (Next > 0) print("|__")
-          println(origin)
+          for (i <- 0 until Next - 1) treeString += "   "
+          if (Next > 0) treeString+="|__"
+          treeString += origin+","
           this (origin).foreach(child => PrintTree(child, Next + 1))
         }
+        treeString
       }
 
       def join(dag: DAG[T]) = this
@@ -93,10 +95,11 @@ class ScalaCP {
       }
     }
 
-    Project.TheLargestBranch(0)
-    Project.PrintTree(0)
-    val arrayP: (Int, List[Int]) =Project.TheLargestBranch(0)//contains the size of the critical path as well as the nodes
-    var LPath = Project.PrintTree(0)
-    (LPath, arrayP)
+    val arrayP: (Int, List[Int]) = Project.TheLargestBranch(0)//contains the size of the critical path as well as the nodes
+    val LPath = Project.PrintTree(0)
+
+    // arrayP._1 returns the sizeOfLargestBranch
+    // arrayP._2 returns the listOfLargestPath
+    (LPath, arrayP._1, arrayP._2)
   }
 }
