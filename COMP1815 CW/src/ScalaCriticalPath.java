@@ -92,9 +92,6 @@ public class ScalaCriticalPath {
                             var NodesOfPathL=NodesOfPath.split(",");//turns string of nodes to a sting array
 
 
-                            for(int i = 0; i < NodesOfPathL.length -1; i++){
-                                NodesOfPathL[i] = NodesOfPathL[i + 1];
-                            }
                             //NodesOfPathL=ArrayUtils.removeElement(NodesOfPathL, 0);
                             var DurationOfCP = 0;
                             var finalDur=0;
