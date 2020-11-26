@@ -1,4 +1,6 @@
+import CriticalPath.KotlinCP;
 import CriticalPath.ScalaCP;
+import kotlin.Triple;
 import scala.Tuple3;
 import scala.collection.immutable.List;
 import javax.swing.*;
@@ -18,10 +20,12 @@ public class ScalaCriticalPath {
     private ProjectHandler handler;
     private TaskHandler taskHandler;
     private ScalaCP cphandler;
+    private KotlinCP kcpHandler;
 
     public ScalaCriticalPath() {
         handler = new ProjectHandler();
         taskHandler = new TaskHandler();
+        kcpHandler = new KotlinCP();
         cphandler = new ScalaCP();
         ProjectJBox.setModel(new DefaultComboBoxModel(taskHandler.listProjectsForTask())); // Sets Projects combo box to list of ProjectIDs
 
@@ -84,7 +88,10 @@ public class ScalaCriticalPath {
                             NodesOfPath = NodesOfPath.replace(")", "");
                             NodesOfPath = NodesOfPath.replace(" ", "");
                             NodesOfPath = NodesOfPath.replace("List(0,", "");
-                            CPL.setText("Tasks on the Critical Path: " + NodesOfPath);
+                            // CPL.setText("Tasks on the Critical Path: " + NodesOfPath);
+
+                            Triple<String[], String, String> kotlinCPInfo = kcpHandler.main(AssignedPTasks, AssignedNPTasks);
+                            NodesAmountL.setText("Number of Nodes in Critical Path: " + kotlinCPInfo.component2());
 
                             String[] NodesOfPathL = NodesOfPath.split(","); // Turns string of nodes to a sting array
 
@@ -100,7 +107,8 @@ public class ScalaCriticalPath {
                             } // Array to then get duration of critical tasks
 
                             // System.out.println("Out of loop: " + finalDur);
-                            DurationL.setText("Duration of Critical Path of Project: " + finalDur);
+                            DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component3());
+                            // DurationL.setText("Duration of Critical Path of Project: " + finalDur);
 
                             // Resizes and centers current window by re-packing it
                             JComponent comp = (JComponent) e.getSource();

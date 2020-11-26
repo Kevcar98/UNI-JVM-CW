@@ -471,4 +471,59 @@ class TaskHandler() {
         }
         return 0
     }
+
+    fun updateTask(taskIndex: Int, dataToEdit: Int, newData: String) {
+        try {
+            val fr = FileReader("Tasks.txt")
+            val br = BufferedReader(fr)
+            var fileLines: String
+            while (br.ready()) {
+                fileLines = br.readLine()
+                fileLines = fileLines.replace("Tasks(", "") // Formatting the read input from Tasks.txt to parse data into Arrays
+                fileLines = fileLines.replace("TaskID=", "")
+                fileLines = fileLines.replace(" ProjectID=", "")
+                fileLines = fileLines.replace(" Commissioner=", "")
+                fileLines = fileLines.replace(" ProjectMng=", "")
+                fileLines = fileLines.replace(" Duration=", "")
+                fileLines = fileLines.replace(" AssignedTeamsID=", "")
+                fileLines = fileLines.replace(" Progress=", "")
+                fileLines = fileLines.replace(")", "")
+                val parts: Array<String> = fileLines.substring(1, fileLines.length - 1).split("\\]\\[".toRegex()).toTypedArray() // Creates Array of Tasks via split()
+                val allParts = Array<Array<String>>(parts.size) { Array<String>(7) { "" } } // Make 3D Array with dimensions: Tasks vs. Tasks Parameters (ID, etc)
+                for (i in parts.indices) {
+                    allParts[i] = parts[i].split(",".toRegex()).toTypedArray() // For each Task, input their respective Task Parameters into Array via split()
+                }
+
+                // Loads Tasks from File, then this block Updates the chosen data of the selected Task ID
+                if (dataToEdit != 5) { // Prevent changes to AssignedTeamsID [temporary]
+                    allParts[taskIndex][dataToEdit] = newData
+
+                    // Clears current contents of Tasks.txt file
+                    val pw = PrintWriter("Tasks.txt")
+                    pw.close()
+
+                    for (i in parts.indices) {
+                        createTask(
+                                allParts[i][0],
+                                allParts[i][1],
+                                allParts[i][2],
+                                allParts[i][3],
+                                allParts[i][4],
+                                allParts[i][5],
+                                allParts[i][6]
+                        ) // Creates an object of type Tasks for each, using Parameter data
+                        save(task) // Saves newly created task from array of tasks (now using the task with the modified data) to emptied Tasks.txt file
+                        task.clear() // Clears mutable list of tasks to avoid saving the entire list of tasks each loop through the array
+                    }
+                }
+                br.close()
+            }
+        } catch (e: FileNotFoundException) {
+            println("Error: File Not Found")
+        } catch (e: IOException) {
+            // println("Error: IO Exception")
+        } catch (e: StringIndexOutOfBoundsException) {
+            // println("Warning: String Index Out of Bounds Exception")
+        }
+    }
 }

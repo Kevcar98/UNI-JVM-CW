@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class KotlinCriticalPath {
 
@@ -80,6 +82,13 @@ public class KotlinCriticalPath {
 
                             NodesAmountL.setText("Number of Nodes in Critical Path: " + kotlinCPInfo.component2());
                             DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component3());
+
+                            // Gets start date of project and returns finish date by adding the duration from critical path
+                            LocalDate date = LocalDate.parse(handler.getProjectItem(ProjectID, 5));
+                            String finishDate = date.plusDays(Long.parseLong(kotlinCPInfo.component3())).toString();
+
+                            handler.multiUpdateProject(ProjectID, 6, finishDate, 7, kotlinCPInfo.component3());
+                            JOptionPane.showMessageDialog(KotlinCPPanel, "Updated Duration and Finish Date of selected project. Projected Finish Date is: " + finishDate);
 
                             // Resizes and centers current window by re-packing it
                             JComponent comp = (JComponent) e.getSource();

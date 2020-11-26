@@ -3,7 +3,7 @@ package CriticalPath
 import TaskHandler
 
 class KotlinCP {
-    var initialNodes = ""
+    var initialNodes = 0
     var duration = ""
 
     fun main(Preq: Array<String>, NPreq: Array<String>): Triple<Array<String>, String, String> {
@@ -141,7 +141,7 @@ class KotlinCP {
                 start
         )*/
         calculateCriticalPath(allTasks) // If Task ID is not found (e.g. when an invalid Task Dependency exists such as Task ID 0), may throw a cyclic error exception
-        return Triple(prettyPrintResult(allTasks), this.initialNodes, this.duration)
+        return Triple(prettyPrintResult(allTasks), this.initialNodes.toString(), this.duration)
     }
 
     fun calculateCriticalPath(tasks: HashSet<Task>) {
@@ -194,13 +194,13 @@ class KotlinCP {
     fun initials(tasks: Collection<Task>): Collection<Task> {
         val dependencies = tasks.flatMap { it.dependencies }.toSet()
         return tasks.filter { it !in dependencies }.also {
-            this.initialNodes = it.joinToString { node -> node.name }
+            // println("Initial nodes: ${it.joinToString { node -> node.name }}\n")
         }
     }
 
     fun prettyPrintResult(tasks: Collection<Task>): Array<String> {
-        var format = "%-15s %-5s %-5s %-5s %-5s %-5s %-10s\n"
-        val firstString = String.format(format, "Task", "ES", "EF", "LS", "LF", "Slack", "Critical?")
+        var format = "%-15s %-15s %-15s %-15s %-15s %-10s %-10s\n"
+        val firstString = String.format(format, "Task", "Early Start", "Early Finish", "Late Start", "Late Finish", "Slack", "Critical?")
         val array = Array<String>(tasks.size + 1) { "" }
         array[0] = firstString
 
@@ -210,6 +210,7 @@ class KotlinCP {
                     format, it.name, it.earlyStart, it.earlyFinish, it.latestStart, it.latestFinish,
                     it.latestStart - it.earlyStart, if (it.isCritical()) "Yes" else "No"
             )
+            if (it.isCritical()) this.initialNodes += 1
             array[i] = taskStrings
             i++
         }
