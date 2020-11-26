@@ -33,7 +33,7 @@ class ProjectHandler() {
                 AssignedTasksID = if (AssignedTasksID.isEmpty()) "None Currently Assigned" else AssignedTasksID,
                 AssignedTeamsID = if (AssignedTeamsID.isEmpty()) "No Teams Currently Assigned" else AssignedTeamsID,
                 StartDate = if (StartDate.isEmpty()) getStartDate() else StartDate,
-                FinishDate = if (FinishDate.isEmpty()) getFinishDate(StartDate, TotalDuration.toLong()) else FinishDate,
+                FinishDate = if (FinishDate.isEmpty() && !StartDate.isEmpty()) getFinishDate(StartDate, TotalDuration.toLong()) else FinishDate,
                 TotalDuration = if (TotalDuration.isEmpty()) 0 else TotalDuration.toInt()
         ))
         return project

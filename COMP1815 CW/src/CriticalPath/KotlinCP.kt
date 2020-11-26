@@ -1,6 +1,7 @@
 package CriticalPath
 import TaskHandler
 
+
 class KotlinCP {
 
 
@@ -18,42 +19,80 @@ class KotlinCP {
         val allTasks = hashSetOf(end, F, A, X, Q, start)*/
 /*
         val start = Task("0 - Start", 0)
-        val first = Task("1", 1,start)
+        val first = Task("1", 10,start)
         val second = Task("2", 1,first)
-        val third = Task("3", 1,start)
+        val third = Task("3", 30,start)
         val forth= Task("4", 1,start,second,third)
         val fifth= Task("5", 1,forth)
-        val allTasks = hashSetOf(fifth, forth, third, second, first, start)*/
+        val allTasks = hashSetOf(fifth, forth, third, second, first, start)
+        val allTasks = hashSetOf(third, first, start)
+ */
+        // Initialize array of tasks without prerequisites (default value of 0 for KotlinCP.Task)
 
-        val tasks = ArrayList<KotlinCP.Task>()
+        val tasks = Array<KotlinCP.Task>(NPreq.size, {j -> Task("0 - Start", 0)})
         val start = Task("0 - Start", 0)
 
-        for(i in NPreq){
-            println("i is "+i)
-            tasks.add(Task(i, TaskHandler().TasksDurationForID(i).toInt(),start))
+        //String[] AssignedPTasks = preq.split(","); // [1->2,3+2->4,4->5]
+        //String[] AssignedNPTasks = nPreq.split(","); // [1,3]
+
+        var j = 0
+        for (i in NPreq) {
+            println("i is " + i)
+            tasks[j] = Task(i, TaskHandler().TasksDurationForID(i), start) // Value of "i" is the actual Task ID string of the non-prerequisite task in the array
+            j++
+            println("nprq iteration i: " + i)
+            println(tasks)
         }
 
+        // Initialize array of tasks with prerequisites (default value of 0 for KotlinCP.Task)
+        val tasksWithPreq = Array<KotlinCP.Task>(Preq.size, {k -> Task("0 - Start", 0)})
 
+        var k = 0
+        for (m in Preq.indices) {
+            var arrayP = Preq[m].split("->") // arrayP = when m = 0, [1,2], when m = 1, [3+2,4], when m = 2, [4,5]
+            var arrayPL = arrayP[0].split("+") // arrayPL = when m = 0, [1], when m = 1, [3,2], when m = 2, [4]
+            println("Iteration " + m + " has arrayPL size: " + arrayPL.size)
 
-        //val allTasks = hashSetOf(tasks, start)
+            if (arrayPL.size > 1) { // If more than one prerequisite task, loops through them to add to a sequence, passed into a set for input
+                // Initialize array of prerequisite tasks (default value of 0 for KotlinCP.Task)
+                var seq = Array<KotlinCP.Task>(arrayPL.size, { p -> Task("0 - Start", 0) })
 
+                var n = 0
+                // The value of "m" is always within bounds for Preq[] (Preq.indices) and arrayP[] (always contains two values so arrayP[0] is valid)
+                // But arrayPL[] can hold a variable amount depending on how many prerequisite tasks it has, so loop its contents into a sequence
+                while (n < arrayPL.size) {
+                    // Appends prerequisite task to current sequence // seq[n] contents are always in this format : Task("1", 10, start)
+                    seq[n] = Task(arrayPL[n], TaskHandler().TasksDurationForID(arrayPL[n]), start)
+                    n += 1
+                    println("n iteration: " + n)
+                    println("seq: " + seq)
+                }
+                // Appends tasks with prerequisite tasks using the sequence of prerequisite tasks
+                tasksWithPreq[k] = Task(arrayP[1], TaskHandler().TasksDurationForID(arrayP[1]), *seq)
+                println("tasksWithPreq: " + arrayP[1] + ", " + TaskHandler().TasksDurationForID(arrayP[1]) + ", *seq")
+            } else {
+                // Appends tasks with only one prerequisite task (by selecting exactly the first element of arrayPL and second element of arrayP) to avoid ArrayOutOfBounds
+                tasksWithPreq[k] = Task(arrayP[1], TaskHandler().TasksDurationForID(arrayP[1]), Task(arrayPL[0], TaskHandler().TasksDurationForID(arrayPL[0]), start))
+                println("tasksWithPreq: " + arrayP[1] + ", " + TaskHandler().TasksDurationForID(arrayP[1]) + ", Task(" + arrayPL[0] + ", " + TaskHandler().TasksDurationForID(arrayPL[0]) + ", start")
+            }
+            k++
+        }
 
+        println("SIZE CHECK : " + tasks.size)
+        println("SIZE CHECK : " + tasksWithPreq.size)
+        for (r in tasks.indices) {
+            println("tasks dependencies: " + tasks[r].dependencies)
+        }
+        for (q in tasksWithPreq.indices) {
+            println("tasksWithPreq dependencies: " + tasksWithPreq[q].dependencies)
+        }
+        val allTasks = hashSetOf<Task>(*tasks, *tasksWithPreq, start)
 
-
-
-
-
-
-
-
-
-
-
-        //calculateCriticalPath(allTasks)
-        //prettyPrintResult(allTasks)
+        calculateCriticalPath(allTasks) // If Task ID is not found (e.g. when an invalid Task Dependency exists such as Task ID 0), may throw a cyclic error exception
+        prettyPrintResult(allTasks)
     }
 
-    fun calculateCriticalPath(tasks: Collection<Task>) {
+    fun calculateCriticalPath(tasks: HashSet<Task>) {
         // tasks whose critical cost has been calculated
         val completed = hashSetOf<Task>()
         // tasks whose critical cost needs to be calculated

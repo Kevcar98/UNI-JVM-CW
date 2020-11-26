@@ -73,14 +73,12 @@ class ScalaCP {
       var arrayP = Preq(i).split("->") // arrayP = when i = 0, [1,2], when i = 1, [3+2,4], when i = 2, [4,5]
       var arrayPL = arrayP(0).split("\\+") // arrayPL = when i = 0, [1], when i = 1, [3,2], when i = 2, [4]
 
-      var seq: Seq[Int] = Seq()
       if (arrayPL.size > 1) { // If more than one prerequisite task, loops through them to add to a sequence, passed into a set for input
+        var seq: Seq[Int] = Seq()
         var j = 0
-        // The value of "i" is always within bounds for Preq[] (Preq.length) and arrayP[] (always contains two values)
+        // The value of "i" is always within bounds for Preq[] (Preq.length) and arrayP[] (always contains two values so arrayP(0) is valid)
         // But arrayPL[] can hold a variable amount depending on how many prerequisite tasks it has, so loop its contents into a sequence
-        while ( {
-          j < arrayPL.size
-        }) {
+        while (j < arrayPL.size) {
           seq :+= arrayPL(j).toInt // Appends prerequisite task to current sequence
           // println(arrayPL(j))
           // println(seq)
