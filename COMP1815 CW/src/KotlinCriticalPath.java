@@ -1,4 +1,7 @@
 import CriticalPath.KotlinCP;
+import kotlin.Triple;
+import scala.Tuple3;
+import scala.collection.immutable.List;
 
 
 import javax.swing.*;
@@ -8,31 +11,42 @@ import java.awt.event.ActionListener;
 
 public class KotlinCriticalPath {
 
-    private JList list1;
+    private JList kotlinProjectJList;
     private JLabel DurationL;
     private JButton submitButton;
     private JButton backToMainMenuButton;
     private JComboBox ProjectJBox;
-    private JLabel CPL;
     private JLabel NodesAmountL;
     public JPanel KotlinCPPanel;
     private ProjectHandler handler;
     private TaskHandler taskHandler;
     private KotlinCP cphandler;
 
-
     public KotlinCriticalPath() {
         handler = new ProjectHandler();
         taskHandler = new TaskHandler();
         cphandler = new KotlinCP();
         ProjectJBox.setModel(new DefaultComboBoxModel(taskHandler.listProjectsForTask()));
+        kotlinProjectJList.setFont(new Font("monospaced", Font.BOLD, 15)); // Keep spacing of strings passed to JList
 
+        backToMainMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame HomePF = new JFrame("Home Page");
+                HomePF.setContentPane(new HomePage().HomePanel);
+                HomePF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                HomePF.pack();
+                HomePF.setVisible(true);
+                HomePF.setLocationRelativeTo(null);
+                // Closes current window
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
+            }
+        });
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
-
                 if (ProjectJBox.getSelectedItem() != null) {
                     String ProjectID = ProjectJBox.getSelectedItem().toString();
                     String AssignedTasksID = handler.retrieveAssignedTasksID(ProjectID);
@@ -60,27 +74,14 @@ public class KotlinCriticalPath {
                             String[] AssignedPTasks = preq.split(","); // [123->33,1+2->5]
                             String[] AssignedNPTasks = nPreq.split(","); // [31,32]
 
-                            cphandler.main(AssignedPTasks, AssignedNPTasks);
+                            Triple<String[], String, String> kotlinCPInfo = cphandler.main(AssignedPTasks, AssignedNPTasks);
+                            String[] taskStrings = kotlinCPInfo.component1();
+                            kotlinProjectJList.setListData(taskStrings);
 
+                            NodesAmountL.setText("Number of Nodes in Critical Path: " + kotlinCPInfo.component2());
+                            DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component3());
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            // Resizes and centers current window by re-packing it
                             JComponent comp = (JComponent) e.getSource();
                             Window win = SwingUtilities.getWindowAncestor(comp);
                             win.pack();
@@ -96,21 +97,6 @@ public class KotlinCriticalPath {
                 } else {
                     JOptionPane.showMessageDialog(KotlinCPPanel, "Error! There are no projects selected. Please select at least one project (or create one if there are none available).");
                 }
-            }
-        });
-        backToMainMenuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame HomePF = new JFrame("Home Page");
-                HomePF.setContentPane(new HomePage().HomePanel);
-                HomePF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                HomePF.pack();
-                HomePF.setVisible(true);
-                HomePF.setLocationRelativeTo(null);
-                // Closes current window
-                JComponent comp = (JComponent) e.getSource();
-                Window win = SwingUtilities.getWindowAncestor(comp);
-                win.dispose();
             }
         });
     }

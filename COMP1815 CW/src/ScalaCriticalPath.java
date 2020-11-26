@@ -100,7 +100,7 @@ public class ScalaCriticalPath {
                             } // Array to then get duration of critical tasks
 
                             // System.out.println("Out of loop: " + finalDur);
-                            DurationL.setText("Duration of Critical path of project: " + finalDur);
+                            DurationL.setText("Duration of Critical Path of Project: " + finalDur);
 
                             // Resizes and centers current window by re-packing it
                             JComponent comp = (JComponent) e.getSource();

@@ -13,7 +13,7 @@
           <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Scala Critical Path"/>
         </properties>
       </component>
       <vspacer id="9916">
@@ -31,19 +31,11 @@
       </component>
       <component id="ba4e6" class="javax.swing.JList" binding="treeJList">
         <constraints>
-          <grid row="2" column="2" row-span="1" col-span="2" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="2" column="2" row-span="2" col-span="2" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
         <properties/>
-      </component>
-      <component id="841a6" class="javax.swing.JLabel" binding="DurationL">
-        <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Duration of Critical path of project:"/>
-        </properties>
       </component>
       <component id="8303c" class="javax.swing.JButton" binding="submitButton" default-binding="true">
         <constraints>
@@ -67,20 +59,28 @@
         </constraints>
         <properties/>
       </component>
+      <component id="7a7a" class="javax.swing.JLabel" binding="NodesAmountL">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Number of Nodes in Critical Path:"/>
+        </properties>
+      </component>
       <component id="87fa4" class="javax.swing.JLabel" binding="CPL">
         <constraints>
-          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Tasks on the Critical Path:"/>
         </properties>
       </component>
-      <component id="7a7a" class="javax.swing.JLabel" binding="NodesAmountL">
+      <component id="841a6" class="javax.swing.JLabel" binding="DurationL">
         <constraints>
-          <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Number of Nodes in Critical Path:"/>
+          <text value="Duration of Critical Path of Project:"/>
         </properties>
       </component>
     </children>

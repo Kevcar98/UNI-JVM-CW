@@ -1,10 +1,6 @@
 package CriticalPath
 
-import java.util
-import java.util.ArrayList
-
 import scala.collection.mutable.{HashMap, HashSet, Set}
-import scala.io.Source
 
 class ScalaCP {
   def main(Preq: Array[String], NPreq: Array[String]): (String, Int, List[Int]) = {
@@ -92,7 +88,7 @@ class ScalaCP {
       }
     }
 
-    val arrayP: (Int, List[Int]) = Project.TheLargestBranch(0)//contains the size of the critical path as well as the nodes
+    val arrayP: (Int, List[Int]) = Project.TheLargestBranch(0) // Contains the size of the critical path as well as the nodes
     val LPath = Project.PrintTree(0)
 
     // arrayP._1 returns the sizeOfLargestBranch
