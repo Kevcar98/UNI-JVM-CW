@@ -12,7 +12,6 @@ public class TaskViewer {
     private JButton backToMainMenuButton;
     private JList taskJList;
     private JButton editSelectedTeamButton;
-    private JButton deleteSelectedTeamButton;
     private JTextField newDataF;
     private JComboBox dataToEditJBox;
     private TaskHandler handler;
@@ -31,7 +30,7 @@ public class TaskViewer {
             System.out.println("ERROR: Task is of unknown status");
         }
         // Set dataToEditJBox combo box to options excluding the Team ID
-        String[] taskDataToEdit = "Commissioner,Project Manager,Duration,Assigned Teams,Progress".split(",");
+        String[] taskDataToEdit = "Commissioner,Project Manager,Duration,Progress".split(",");
         dataToEditJBox.setModel(new DefaultComboBoxModel(taskDataToEdit));
 
         backToMainMenuButton.addActionListener(new ActionListener() {
@@ -86,12 +85,6 @@ public class TaskViewer {
                 } else {
                     JOptionPane.showMessageDialog(TaskVPanel, "Error! There is either no project available or selected from the list.");
                 }
-            }
-        });
-        deleteSelectedTeamButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //
             }
         });
     }

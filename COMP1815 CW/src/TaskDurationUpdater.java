@@ -39,15 +39,15 @@ public class TaskDurationUpdater {
                     String duration = DurationF.getText();
                     Boolean foundID = handler.updateTasksDuration(id, duration);
                     if (foundID) {
-                        JOptionPane.showMessageDialog(UpdateTaskDurationPanel, "Task Duration Updated.");
+                        JOptionPane.showMessageDialog(UpdateTaskDurationPanel, "Task Duration Updated. \nTo update the Critical Path in the next window, please select the Project containing this updated Task.");
 
-                        // Back to Main Menu
-                        JFrame HomePF = new JFrame("Home Page");
-                        HomePF.setContentPane(new HomePage().HomePanel);
-                        HomePF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        HomePF.pack();
-                        HomePF.setVisible(true);
-                        HomePF.setLocationRelativeTo(null);
+                        // Go to KotlinCriticalPath to update Critical Path
+                        JFrame KCPath = new JFrame("Update Task Duration");
+                        KCPath.setContentPane(new KotlinCriticalPath().KotlinCPPanel);
+                        KCPath.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        KCPath.pack();
+                        KCPath.setVisible(true);
+                        KCPath.setLocationRelativeTo(null);
                         // Closes current window
                         JComponent comp = (JComponent) e.getSource();
                         Window win = SwingUtilities.getWindowAncestor(comp);

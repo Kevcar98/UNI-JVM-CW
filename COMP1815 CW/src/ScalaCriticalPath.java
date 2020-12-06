@@ -1,5 +1,6 @@
 import CriticalPath.KotlinCP;
 import CriticalPath.ScalaCP;
+import kotlin.Pair;
 import kotlin.Triple;
 import scala.Tuple3;
 import scala.collection.immutable.List;
@@ -13,10 +14,10 @@ public class ScalaCriticalPath {
     private JButton backToMainMenuButton;
     private JButton submitButton;
     private JLabel NodesAmountL;
-    private JLabel CPL;
     private JLabel DurationL;
     private JComboBox ProjectJBox;
     private JList treeJList;
+    private JLabel CPL;
     private ProjectHandler handler;
     private TaskHandler taskHandler;
     private ScalaCP cphandler;
@@ -88,10 +89,10 @@ public class ScalaCriticalPath {
                             NodesOfPath = NodesOfPath.replace(")", "");
                             NodesOfPath = NodesOfPath.replace(" ", "");
                             NodesOfPath = NodesOfPath.replace("List(0,", "");
-                            // CPL.setText("Tasks on the Critical Path: " + NodesOfPath);
+                            CPL.setText("Tasks on the Critical Path: " + NodesOfPath);
 
-                            Triple<String[], String, String> kotlinCPInfo = kcpHandler.main(AssignedPTasks, AssignedNPTasks);
-                            NodesAmountL.setText("Number of Nodes in Critical Path: " + kotlinCPInfo.component2());
+                            //Pair<String, String> kotlinCPInfo = kcpHandler.main(AssignedPTasks, AssignedNPTasks);
+                            //NodesAmountL.setText("Number of Nodes in Critical Path: " + kotlinCPInfo.component2());
 
                             String[] NodesOfPathL = NodesOfPath.split(","); // Turns string of nodes to a sting array
 
@@ -106,9 +107,8 @@ public class ScalaCriticalPath {
                                 // System.out.println("Value that was received: " + DurationOfCP);
                             } // Array to then get duration of critical tasks
 
-                            // System.out.println("Out of loop: " + finalDur);
-                            DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component3());
-                            // DurationL.setText("Duration of Critical Path of Project: " + finalDur);
+                            // DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component2());
+                            DurationL.setText("Duration of Critical Path of Project: " + finalDur);
 
                             // Resizes and centers current window by re-packing it
                             JComponent comp = (JComponent) e.getSource();

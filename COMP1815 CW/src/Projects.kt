@@ -319,27 +319,29 @@ class ProjectHandler() {
                 }
 
                 // Loads Projects from File, then this block Updates the chosen data of the selected Project ID
-                if (dataToEdit != 3 && dataToEdit != 4) { // Prevent changes to AssignedTasksID and AssignedTeamsID [temporary]
+                if (dataToEdit == 3) { // Prevent changes to AssignedTasksID and AssignedTeamsID when Start Date is selected
+                    allParts[projectIndex][dataToEdit + 2] = newData
+                    allParts[projectIndex][6] = getFinishDate(newData, allParts[projectIndex][7].toLong())
+                } else {
                     allParts[projectIndex][dataToEdit] = newData
+                }
+                // Clears current contents of Projects.txt file
+                val pw = PrintWriter("Projects.txt")
+                pw.close()
 
-                    // Clears current contents of Projects.txt file
-                    val pw = PrintWriter("Projects.txt")
-                    pw.close()
-
-                    for (i in parts.indices) {
-                        createProject(
-                                allParts[i][0],
-                                allParts[i][1],
-                                allParts[i][2],
-                                allParts[i][3],
-                                allParts[i][4],
-                                allParts[i][5],
-                                allParts[i][6],
-                                allParts[i][7]
-                        ) // Creates an object of type Projects for each, using Parameter data
-                        save(project) // Saves newly created project from array of projects (now using the project with the modified data) to emptied Projects.txt file
-                        project.clear() // Clears mutable list of projects to avoid saving the entire list of projects each loop through the array
-                    }
+                for (i in parts.indices) {
+                    createProject(
+                            allParts[i][0],
+                            allParts[i][1],
+                            allParts[i][2],
+                            allParts[i][3],
+                            allParts[i][4],
+                            allParts[i][5],
+                            allParts[i][6],
+                            allParts[i][7]
+                    ) // Creates an object of type Projects for each, using Parameter data
+                    save(project) // Saves newly created project from array of projects (now using the project with the modified data) to emptied Projects.txt file
+                    project.clear() // Clears mutable list of projects to avoid saving the entire list of projects each loop through the array
                 }
                 br.close()
             }

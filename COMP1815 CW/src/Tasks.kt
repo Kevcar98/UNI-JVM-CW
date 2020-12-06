@@ -495,26 +495,27 @@ class TaskHandler() {
                 }
 
                 // Loads Tasks from File, then this block Updates the chosen data of the selected Task ID
-                if (dataToEdit != 5) { // Prevent changes to AssignedTeamsID [temporary]
+                if (dataToEdit == 5) { // Prevent changes to AssignedTeamsID when Progress is selected
+                    allParts[taskIndex][dataToEdit + 1] = newData
+                } else {
                     allParts[taskIndex][dataToEdit] = newData
+                }
+                // Clears current contents of Tasks.txt file
+                val pw = PrintWriter("Tasks.txt")
+                pw.close()
 
-                    // Clears current contents of Tasks.txt file
-                    val pw = PrintWriter("Tasks.txt")
-                    pw.close()
-
-                    for (i in parts.indices) {
-                        createTask(
-                                allParts[i][0],
-                                allParts[i][1],
-                                allParts[i][2],
-                                allParts[i][3],
-                                allParts[i][4],
-                                allParts[i][5],
-                                allParts[i][6]
-                        ) // Creates an object of type Tasks for each, using Parameter data
-                        save(task) // Saves newly created task from array of tasks (now using the task with the modified data) to emptied Tasks.txt file
-                        task.clear() // Clears mutable list of tasks to avoid saving the entire list of tasks each loop through the array
-                    }
+                for (i in parts.indices) {
+                    createTask(
+                            allParts[i][0],
+                            allParts[i][1],
+                            allParts[i][2],
+                            allParts[i][3],
+                            allParts[i][4],
+                            allParts[i][5],
+                            allParts[i][6]
+                    ) // Creates an object of type Tasks for each, using Parameter data
+                    save(task) // Saves newly created task from array of tasks (now using the task with the modified data) to emptied Tasks.txt file
+                    task.clear() // Clears mutable list of tasks to avoid saving the entire list of tasks each loop through the array
                 }
                 br.close()
             }

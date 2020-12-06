@@ -15,7 +15,6 @@ public class ProjectViewer {
     private JButton backToMainMenuButton;
     private JList projectJList;
     private JButton editSelectedProjectButton;
-    private JButton deleteSelectedProjectButton;
     private JTextField newDataF;
     private JComboBox dataToEditJBox;
     private ProjectHandler handler;
@@ -34,7 +33,7 @@ public class ProjectViewer {
             System.out.println("ERROR: Project is of unknown status");
         }
         // Set dataToEditJBox combo box to options excluding the Team ID
-        String[] projectDataToEdit = "Commissioner,Project Manager,Assigned Tasks,Assigned Teams,Start Date".split(",");
+        String[] projectDataToEdit = "Commissioner,Project Manager,Start Date".split(",");
         dataToEditJBox.setModel(new DefaultComboBoxModel(projectDataToEdit));
 
         backToMainMenuButton.addActionListener(new ActionListener() {
@@ -97,12 +96,6 @@ public class ProjectViewer {
                 } else {
                     JOptionPane.showMessageDialog(ProjectVPanel, "Error! There is either no project available or selected from the list.");
                 }
-            }
-        });
-        deleteSelectedProjectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //
             }
         });
     }

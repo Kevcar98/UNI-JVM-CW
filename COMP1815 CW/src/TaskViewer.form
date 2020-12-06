@@ -45,14 +45,6 @@
           <text value="Edit Selected Team"/>
         </properties>
       </component>
-      <component id="bc40d" class="javax.swing.JButton" binding="deleteSelectedTeamButton" default-binding="true">
-        <constraints>
-          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Delete Selected Team"/>
-        </properties>
-      </component>
       <component id="7ab0c" class="javax.swing.JTextField" binding="newDataF">
         <constraints>
           <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
@@ -69,7 +61,9 @@
       </component>
       <component id="d3c73" class="javax.swing.JComboBox" binding="dataToEditJBox">
         <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="180" height="-1"/>
+          </grid>
         </constraints>
         <properties/>
       </component>

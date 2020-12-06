@@ -1,4 +1,5 @@
 import CriticalPath.KotlinCP;
+import kotlin.Pair;
 import kotlin.Triple;
 import scala.Tuple3;
 import scala.collection.immutable.List;
@@ -12,14 +13,14 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class KotlinCriticalPath {
-
+    public JPanel KotlinCPPanel;
     private JList kotlinProjectJList;
     private JLabel DurationL;
     private JButton submitButton;
     private JButton backToMainMenuButton;
     private JComboBox ProjectJBox;
-    private JLabel NodesAmountL;
-    public JPanel KotlinCPPanel;
+    private JLabel TaskL;
+    private JLabel InitialL;
     private ProjectHandler handler;
     private TaskHandler taskHandler;
     private KotlinCP cphandler;
@@ -53,7 +54,7 @@ public class KotlinCriticalPath {
                     String ProjectID = ProjectJBox.getSelectedItem().toString();
                     String AssignedTasksID = handler.retrieveAssignedTasksID(ProjectID);
                     if (!AssignedTasksID.equals("") && !AssignedTasksID.equals("None Currently Assigned")) {
-                        System.out.println("Assigned Tasks IDs: " + AssignedTasksID); // "31 & 32 & 123->33 & 1+2->5"
+                        TaskL.setText("Assigned Tasks IDs: " + AssignedTasksID); // "31 & 32 & 123->33 & 1+2->5"
                         String[] AssignedTasks = AssignedTasksID.split(" & "); // [31,32,123->33,1+2->5]
                         String preq = "";
                         String nPreq = "";
@@ -80,7 +81,7 @@ public class KotlinCriticalPath {
                             String[] taskStrings = kotlinCPInfo.component1();
                             kotlinProjectJList.setListData(taskStrings);
 
-                            NodesAmountL.setText("Number of Nodes in Critical Path: " + kotlinCPInfo.component2());
+                            InitialL.setText("Initial Tasks on the Critical Path: " + kotlinCPInfo.component2());
                             DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component3());
 
                             // Gets start date of project and returns finish date by adding the duration from critical path

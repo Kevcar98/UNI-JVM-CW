@@ -48,14 +48,6 @@
           <text value="Update Task Duration"/>
         </properties>
       </component>
-      <component id="d94be" class="javax.swing.JButton" binding="ScalaCriticalPath">
-        <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Scala Critical Path"/>
-        </properties>
-      </component>
       <component id="82098" class="javax.swing.JButton" binding="createProjectButton" default-binding="true">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -90,10 +82,18 @@
       </component>
       <component id="917f6" class="javax.swing.JButton" binding="kotlinCriticalPathButton" default-binding="true">
         <constraints>
-          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Kotlin Critical Path"/>
+        </properties>
+      </component>
+      <component id="d94be" class="javax.swing.JButton" binding="ScalaCriticalPath">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Scala Critical Path"/>
         </properties>
       </component>
     </children>
