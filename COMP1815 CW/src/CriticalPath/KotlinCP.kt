@@ -3,11 +3,11 @@ package CriticalPath
 import TaskHandler
 import java.util.*
 
+
 class KotlinCP {
-    var initialNodes = 0
     var maxCost = 0
 
-    fun main(Preq: Array<String>, NPreq: Array<String>): Triple<Array<String>, String, String> {
+    fun main(Preq: Array<String>, NPreq: Array<String>): Pair<Array<String>, String> {
 
         // Initialize array of tasks without prerequisites (default value of 0 for KotlinCP.Task)
         val tasks = Array<KotlinCP.Task>(NPreq.size, { j -> KotlinCP.Task("0 - Start", 0) })
@@ -96,7 +96,7 @@ class KotlinCP {
         val allTasks = hashSetOf<KotlinCP.Task>(*tasks, *tasksWithPreq, start)
 
         calculateCriticalPath(allTasks) // If Task ID is not found (e.g. when an invalid Task Dependency exists such as Task ID 0), may throw a cyclic error exception
-        return Triple(prettyPrintResult(allTasks), this.initialNodes.toString(), this.maxCost.toString())
+        return Pair(prettyPrintResult(allTasks), this.maxCost.toString())
     }
 
     fun calculateCriticalPath(tasks: HashSet<Task>): Array<Task> {
@@ -293,7 +293,6 @@ class KotlinCP {
                     format, it.name, it.earlyStart, it.earlyFinish, it.latestStart, it.latestFinish,
                     it.latestStart - it.earlyStart, if (it.isCritical()) "Yes" else "No"
             )
-            if (it.isCritical()) this.initialNodes += 1
             array[i] = taskStrings
             i++
         }
@@ -309,7 +308,7 @@ class KotlinCP {
         var criticalCost = 0
         var earlyStart = 0
         var earlyFinish = 0
-        var latestStart = 0
+        var latestStart = -1 // Prevents non-critical tasks showing as critical
         var latestFinish = 0
         var dependencies = HashSet<Task>()
 

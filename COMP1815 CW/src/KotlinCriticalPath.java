@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.Date;
 
+
 public class KotlinCriticalPath {
     public JPanel KotlinCPPanel;
     private JList kotlinProjectJList;
@@ -20,7 +21,6 @@ public class KotlinCriticalPath {
     private JButton backToMainMenuButton;
     private JComboBox ProjectJBox;
     private JLabel TaskL;
-    private JLabel InitialL;
     private ProjectHandler handler;
     private TaskHandler taskHandler;
     private KotlinCP cphandler;
@@ -77,25 +77,25 @@ public class KotlinCriticalPath {
                             String[] AssignedPTasks = preq.split(","); // [123->33,1+2->5]
                             String[] AssignedNPTasks = nPreq.split(","); // [31,32]
 
-                            Triple<String[], String, String> kotlinCPInfo = cphandler.main(AssignedPTasks, AssignedNPTasks);
+                            Pair<String[], String> kotlinCPInfo = cphandler.main(AssignedPTasks, AssignedNPTasks);
                             String[] taskStrings = kotlinCPInfo.component1();
                             kotlinProjectJList.setListData(taskStrings);
 
-                            InitialL.setText("Initial Tasks on the Critical Path: " + kotlinCPInfo.component2());
-                            DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component3());
+                            DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component2());
 
                             // Gets start date of project and returns finish date by adding the duration from critical path
                             LocalDate date = LocalDate.parse(handler.getProjectItem(ProjectID, 5));
-                            String finishDate = date.plusDays(Long.parseLong(kotlinCPInfo.component3())).toString();
+                            String finishDate = date.plusDays(Long.parseLong(kotlinCPInfo.component2())).toString();
 
-                            handler.multiUpdateProject(ProjectID, 6, finishDate, 7, kotlinCPInfo.component3());
-                            JOptionPane.showMessageDialog(KotlinCPPanel, "Updated Duration and Finish Date of selected project. Projected Finish Date is: " + finishDate);
+                            handler.multiUpdateProject(ProjectID, 6, finishDate, 7, kotlinCPInfo.component2());
 
                             // Resizes and centers current window by re-packing it
                             JComponent comp = (JComponent) e.getSource();
                             Window win = SwingUtilities.getWindowAncestor(comp);
                             win.pack();
                             win.setLocationRelativeTo(null);
+
+                            JOptionPane.showMessageDialog(KotlinCPPanel, "Updated Duration and Finish Date of selected project. Projected Finish Date is: " + finishDate);
                         } else {
                             // Prevents passing an empty string as a parameter, if none of the tasks have prerequisites - critical path cannot be calculated
                             // At least one task will not have a prerequisite (nPreq is never empty), as an initial task must exist for there to be prerequisite tasks

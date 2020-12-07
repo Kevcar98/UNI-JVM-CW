@@ -71,11 +71,6 @@ public class TaskCreator {
                         (
                                 (!noPrerequisiteTasksCBox.isSelected() && !prerequisiteTaskID.isEmpty()) ||
                                 (noPrerequisiteTasksCBox.isSelected())
-                        ) &&
-                        // Checks if the "No Prerequisites" checkbox is checked, and if not, it checks if the Prerequisite Tasks combo box is not null
-                        (
-                                (!noPrerequisiteTasksCBox.isSelected() && prerequisiteTasksJBox.getSelectedItem() != null) ||
-                                (noPrerequisiteTasksCBox.isSelected())
                         )
                 ) {
                     if (handler.uniqueIDCheck(TaskIDF.getText())) {

@@ -1,13 +1,12 @@
-import CriticalPath.KotlinCP;
-import CriticalPath.ScalaCP;
-import kotlin.Pair;
-import kotlin.Triple;
-import scala.Tuple3;
+import scala.Tuple4;
 import scala.collection.immutable.List;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+
 
 public class ScalaCriticalPath {
     public JPanel ScalaCPPanel;
@@ -18,15 +17,14 @@ public class ScalaCriticalPath {
     private JComboBox ProjectJBox;
     private JList treeJList;
     private JLabel CPL;
+    private JLabel TaskL;
     private ProjectHandler handler;
     private TaskHandler taskHandler;
     private ScalaCP cphandler;
-    private KotlinCP kcpHandler;
 
     public ScalaCriticalPath() {
         handler = new ProjectHandler();
         taskHandler = new TaskHandler();
-        kcpHandler = new KotlinCP();
         cphandler = new ScalaCP();
         ProjectJBox.setModel(new DefaultComboBoxModel(taskHandler.listProjectsForTask())); // Sets Projects combo box to list of ProjectIDs
 
@@ -52,7 +50,7 @@ public class ScalaCriticalPath {
                     String ProjectID = ProjectJBox.getSelectedItem().toString();
                     String AssignedTasksID = handler.retrieveAssignedTasksID(ProjectID);
                     if (!AssignedTasksID.equals("") && !AssignedTasksID.equals("None Currently Assigned")) {
-                        System.out.println("Assigned Tasks IDs: " + AssignedTasksID); // "31 & 32 & 123->33 & 1+2->5"
+                        TaskL.setText("Assigned Tasks IDs: " + AssignedTasksID); // "31 & 32 & 123->33 & 1+2->5"
                         String[] AssignedTasks = AssignedTasksID.split(" & "); // [31,32,123->33,1+2->5]
                         String preq = "";
                         String nPreq = "";
@@ -75,7 +73,7 @@ public class ScalaCriticalPath {
                             String[] AssignedPTasks = preq.split(","); // [123->33,1+2->5]
                             String[] AssignedNPTasks = nPreq.split(","); // [31,32]
 
-                            Tuple3<String, Object, List<Object>> TreeInfo = cphandler.main(AssignedPTasks, AssignedNPTasks);
+                            Tuple4<String, Object, List<Object>, Object> TreeInfo = cphandler.main(AssignedPTasks, AssignedNPTasks);
 
                             String tree = TreeInfo._1(); // Tree
                             treeJList.setListData(tree.split(",")); // Converts string to new array for JList
@@ -88,33 +86,24 @@ public class ScalaCriticalPath {
                             String NodesOfPath = TreeInfo._3().toString();
                             NodesOfPath = NodesOfPath.replace(")", "");
                             NodesOfPath = NodesOfPath.replace(" ", "");
-                            NodesOfPath = NodesOfPath.replace("List(0,", "");
+                            NodesOfPath = NodesOfPath.replace("List(", "0,");
                             CPL.setText("Tasks on the Critical Path: " + NodesOfPath);
 
-                            //Pair<String, String> kotlinCPInfo = kcpHandler.main(AssignedPTasks, AssignedNPTasks);
-                            //NodesAmountL.setText("Number of Nodes in Critical Path: " + kotlinCPInfo.component2());
+                            DurationL.setText("Duration of Critical Path of Project: " + TreeInfo._4().toString());
 
-                            String[] NodesOfPathL = NodesOfPath.split(","); // Turns string of nodes to a sting array
+                            // Gets start date of project and returns finish date by adding the duration from critical path
+                            LocalDate date = LocalDate.parse(handler.getProjectItem(ProjectID, 5));
+                            String finishDate = date.plusDays(Long.parseLong(TreeInfo._4().toString())).toString();
 
-                            int DurationOfCP = 0;
-                            int finalDur = 0;
-
-                            for (int i = 0; i < NodesOfPathL.length; i++) {
-                                // System.out.println("In loop: " + DurationOfCP);
-                                DurationOfCP = taskHandler.TasksDurationForID(NodesOfPathL[i]);
-                                finalDur = finalDur + DurationOfCP;
-                                // System.out.println("Value that was passed: " + NodesOfPathL[i]);
-                                // System.out.println("Value that was received: " + DurationOfCP);
-                            } // Array to then get duration of critical tasks
-
-                            // DurationL.setText("Duration of Critical Path of Project: " + kotlinCPInfo.component2());
-                            DurationL.setText("Duration of Critical Path of Project: " + finalDur);
+                            handler.multiUpdateProject(ProjectID, 6, finishDate, 7, TreeInfo._4().toString());
 
                             // Resizes and centers current window by re-packing it
                             JComponent comp = (JComponent) e.getSource();
                             Window win = SwingUtilities.getWindowAncestor(comp);
                             win.pack();
                             win.setLocationRelativeTo(null);
+
+                            JOptionPane.showMessageDialog(ScalaCPPanel, "Updated Duration and Finish Date of selected project. Projected Finish Date is: " + finishDate);
                         } else {
                             // Prevents passing an empty string as a parameter, if none of the tasks have prerequisites - critical path cannot be calculated
                             // At least one task will not have a prerequisite (nPreq is never empty), as an initial task must exist for there to be prerequisite tasks

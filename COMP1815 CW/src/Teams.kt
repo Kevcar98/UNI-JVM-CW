@@ -25,20 +25,21 @@ class TeamHandler() {
                         TeamLeader = if (TeamLeader.isEmpty()) "Unknown Team Leader" else TeamLeader,
                         TeamMembers = if (TeamMembers.isEmpty()) "Unknown Team Members" else TeamMembers,
                         TeamLoc = if (TeamLoc.isEmpty()) "Unknown TeamLoc" else TeamLoc,
-                        TeamCost = if (TeamCost.isEmpty()) generateTeamCost(TeamMembers) else TeamCost.toInt()
+                        TeamCost = if (TeamCost.isEmpty()) 0 else generateTeamCost(TeamMembers)
                 )
         )
         return team
     }
 
-    val generateTeamCost = { NumMembers: String -> Int // Declare lambda expression parameters and return type
+    val generateTeamCost = { NumMembers: String ->
+        Int // Declare lambda expression parameters and return type
         var cost = 100 // Team Leader salary cost
         for (i in NumMembers.split(" ").toTypedArray().indices) {
             cost += 50 // Team Members salary cost for each
         }
         cost
     }
-    
+
     fun save(team: List<Teams>?) {
         CreateFile.createFileTeam() save team.toString()
     }
@@ -105,7 +106,7 @@ class TeamHandler() {
 
                 // Loads Teams from File, then this block checks if inputted Team ID is existing
                 var emptyInput = false
-                if(ID == "") emptyInput = true
+                if (ID == "") emptyInput = true
                 for (i in parts.indices) {
                     for (j in allParts[i].indices) {
                         if (allParts[i][0] == ID || (emptyInput && allParts[i][0] == "0")) { // if TeamIDF text field is empty, TeamID is 0 so check if it exists
