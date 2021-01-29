@@ -1,0 +1,1 @@
+[Teams(TeamID=0, TeamLeader=Bobby, TeamMembers=Dan Mark Paul, TeamLoc=France, TeamCost=250)][Teams(TeamID=1, TeamLeader=Jimmy, TeamMembers=Steve Cameron, TeamLoc=UK, TeamCost=200)][Teams(TeamID=2, TeamLeader=Ross, TeamMembers=Joseph, TeamLoc=Brazil, TeamCost=150)][Teams(TeamID=4, TeamLeader=Bobby, TeamMembers=Dan Mark Paul, TeamLoc=UK, TeamCost=250)]
